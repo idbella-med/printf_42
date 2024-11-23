@@ -1,65 +1,73 @@
-#include "printf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mohidbel <mohidbel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/23 11:53:33 by mohidbel          #+#    #+#             */
+/*   Updated: 2024/11/23 20:28:41 by mohidbel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static void    chek_type(char c, va_list args)
+#include "ft_printf.h"
+
+static void	check_type_and_print_it(char c, va_list args, int *len)
 {
-   if (c == 'c')
-		ft_putchar(va_arg(args, int));
+	if (c == 'c')
+		ft_putchar(va_arg(args, int), len);
 	else if (c == 's')
-		ft_putstr(va_arg(args, char *));
+		ft_putstr(va_arg(args, char *), len);
 	else if (c == 'd' || c == 'i')
-		ft_putnbr(va_arg(args, int));
-    else if (c == 'u')
-        ft_putuint(va_arg(args, unsigned int));
+		ft_putnbr(va_arg(args, int), len);
+	else if (c == 'u')
+		ft_put_u_int(va_arg(args, unsigned int), len);
+	else if (c == 'p')
+		ft_puthexa(va_arg(args, void *), len);
+	else if (c == 'X' || c == 'x')
+		ft_tohexa(va_arg(args, unsigned int), c, len);
+	else if (c == '%')
+		ft_putchar('%', len);
 }
 
-static int    check_format(char c)
+static int	check_format(char c)
 {
-    int i = 0;
-    char *set = "cspdiuxX%";
-    while (set[i])
-    {
-        if(set[i] == c)
-            return 1;
-        i++;
-    }
-    return 0;
+	int		i;
+	char	*set;
+
+	i = 0;
+	set = "cspdiuxX%";
+	while (set[i])
+	{
+		if (set[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
-int ft_printf(const char *str, ...)
+int	ft_printf(const char *str, ...)
 {
-    va_list (args);
-    va_start(args, str);
-    int i = 0;
-    while(str[i])
-    {
-        if(str[i] == '%' && str[i + 1] == '%')
-        {
-            ft_putchar('%');
-            i++;
-        }
-        else if(str[i] == '%')
-        {
-            i++;
-            if(check_format(str[i]))
-            {
-                chek_type(str[i], args);
-            }
-        }
-        else
-            ft_putchar(str[i]);
-        i++;
-    }
-    return (1);
-}
+	int	i;
+	int	len;
 
-int main()
-{
-    char *s = "lll";
-    int n = 9;
-    char c = '0';
-    unsigned int a = 12;
-    ft_printf("%s\n", s);
-    ft_printf("%d\n", n);
-    ft_printf("%c\n", c);
-    ft_printf("%u\n", a);
+	i = 0;
+	len = 0;
+	va_list(args);
+	if (write(1, "", 0) < 0)
+		return (-1);
+	va_start(args, str);
+	while (str[i])
+	{
+		if (str[i] == '%' && check_format(str[i + 1]))
+		{
+			check_type_and_print_it(str[i + 1], args, &len);
+			i++;
+		}
+		else
+			ft_putchar(str[i], &len);
+		i++;
+	}
+	va_end(args);
+	return (len);
 }

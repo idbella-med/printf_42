@@ -1,7 +1,25 @@
-#include "printf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mohidbel <mohidbel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/23 11:54:23 by mohidbel          #+#    #+#             */
+/*   Updated: 2024/11/23 20:29:35 by mohidbel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void    ft_putstr(char *s)
+#include "ft_printf.h"
+
+void	ft_putstr(char *s, int *len)
 {
-    while(*s)
-        write(1, s++, 1);
+	if (!s)
+	{
+		write(1, "(null)", 6);
+		*len += 6;
+		return ;
+	}
+	while (*s)
+		ft_putchar(*s++, len);
 }

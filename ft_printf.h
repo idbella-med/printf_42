@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar.c                                       :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mohidbel <mohidbel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 11:53:57 by mohidbel          #+#    #+#             */
-/*   Updated: 2024/11/23 12:02:01 by mohidbel         ###   ########.fr       */
+/*   Created: 2024/11/23 11:53:42 by mohidbel          #+#    #+#             */
+/*   Updated: 2024/11/23 12:01:02 by mohidbel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
-void	ft_putchar(char c, int *len)
-{
-	write(1, &c, 1);
-	*len += 1;
-}
+# include <stdarg.h>
+# include <unistd.h>
+
+int		ft_printf(const char *str, ...);
+void	ft_putnbr(int n, int *len);
+void	ft_putstr(char *s, int *len);
+void	ft_putchar(char c, int *len);
+void	ft_put_u_int(unsigned int n, int *len);
+void	ft_puthexa(void *p, int *count);
+void	ft_tohexa(unsigned int n, char c, int *len);
+
+#endif
