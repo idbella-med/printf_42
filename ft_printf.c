@@ -64,7 +64,7 @@ int	ft_printf(const char *str, ...)
 			check_type_and_print_it(str[i + 1], args, &len);
 			i++;
 		}
-		else
+		else if (str[i] != '%")
 			ft_putchar(str[i], &len);
 		i++;
 	}
